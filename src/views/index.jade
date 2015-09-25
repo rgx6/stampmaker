@@ -1,0 +1,173 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="Content-Language", content="ja")
+    meta(name="robots", content="nofollow")
+    meta(name="keywords", content="Twitterスタンプ,ツイッタースタンプ,Twitter,ツイッター,スタンプ,画像レス")
+    meta(name="description", content="Twitterスタンプメーカー")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    title="Twitterスタンプメーカー"
+    link(type="text/css", rel="stylesheet", href="/stylesheets/style.css")
+    script(type="application/javascript", src="/javascripts/client.js", defer)
+  body
+    div.container
+      div.jumbotron
+        h1 Twitterスタンプメーカー（β）
+
+      div
+          a.twitter-share-button(href="https://twitter.com/share"
+              data-lang="ja" data-size="large" data-hashtags="Twitterスタンプメーカー"
+              data-text="みんなでTwitterスタンプをつくろう！" data-url="http://stampmaker.rgx6.com/") ツイート
+
+
+      h1.page-header Twitterスタンプって？
+
+      p
+        | 某L●●Eスタンプのように、Twitterで気軽に画像ツイートをするためのものです。
+        br
+        | 画像をクリックするとツイート画面が表示されて、そのままツイートするとクリックした画像をツイートできます。
+        | アプリ連携も不要です。
+
+      div.row.stampsample.clearfix
+        a(style="width: 100px; height: 100px; border-radius: 0px; display: block;", target="_blank", href="https://twitter.com/intent/tweet?lang=ja&amp;text=%0D%23%E3%81%A6%E3%82%86%E3%81%86%E3%81%8B%E3%82%82%E3%81%86%E5%AF%9D%E3%82%88%E3%81%86%0Dhttp%3A%2F%2Fmouneyou.rgx6.com%2F%0Dpic.twitter.com%2FzJf9UxVkCy")
+          div(style="width: 98px; height: 98px; background-image: url(/images/stamp001.png); background-position: center center; background-repeat: no-repeat; background-size: contain; background-color: rgb(255, 255, 255); border: 1px solid rgb(0, 0, 0); border-radius: 0px; box-sizing: content-box;")
+        a(style="width: 100px; height: 100px; border-radius: 20px; display: block;", target="_blank", href="https://twitter.com/intent/tweet?lang=ja&amp;text=%0D%23%E3%81%A6%E3%82%86%E3%81%86%E3%81%8B%E3%82%82%E3%81%86%E5%AF%9D%E3%82%88%E3%81%86%0Dhttp%3A%2F%2Fmouneyou.rgx6.com%2F%0Dpic.twitter.com%2FYYwHReTUBS")
+          div(style="width: 100px; height: 100px; background-image: url(/images/stamp023.png); background-position: center center; background-repeat: no-repeat; background-size: contain; background-color: rgb(255, 255, 255); border: 0px solid rgb(0, 0, 0); border-radius: 20px; box-sizing: content-box;")
+        a(style="width: 100px; height: 100px; border-radius: 10px; display: block;", target="_blank", href="https://twitter.com/intent/tweet?lang=ja&amp;text=%0D%23%E3%81%A6%E3%82%86%E3%81%86%E3%81%8B%E3%82%82%E3%81%86%E5%AF%9D%E3%82%88%E3%81%86%0Dhttp%3A%2F%2Fmouneyou.rgx6.com%2F%0Dpic.twitter.com%2FuWYAxKQpmF")
+          div(style="width: 96px; height: 96px; background-image: url(/images/stamp053.png); background-position: center center; background-repeat: no-repeat; background-size: contain; background-color: rgb(255, 255, 255); border: 2px solid rgb(238, 238, 238); border-radius: 10px; box-sizing: content-box;")
+
+
+      h1.page-header このアプリについて
+
+      p
+        | Twitterスタンプの作成を補助するアプリです。
+        br
+        | アプリで生成したHTMLタグをブログとか適当なところに埋め込むだけなので、
+        | スタンプの仕組みはもちろん、プログラミング（HTMLとかCSSとかJavaScriptとか）の知識も（たぶん）不要です。
+
+
+      h1.page-header 1. スタンプにしたい画像をツイート
+
+      p すでにツイートしてある画像を使いたい場合はそのまま次へ。
+
+      p
+        | ※ 鍵アカウントでツイートすると、フォロワーにしか見えないスタンプになってしまいます。
+        br
+        | ※ スタンプのもとになったツイートを削除するとスタンプも使えなくなります。
+
+
+      h1.page-header 2. ツイートから画像を取得
+
+      div.form-group
+        label(for="tweetUrl") ツイートのURL
+        p.h6
+          a(href="/images/tweeturl.png", target="_blank") URLの取得方法
+        input#tweetUrl.form-control(type="text", placeholder="https://twitter.com/rgx_6/status/522360412960862209/")
+
+      div.form-group
+        button#getTweet.btn.btn-primary(type="button") ツイートを取得
+
+      div#tweetImageArea.form-group
+
+
+      h1.page-header 3. ツイート内容を編集
+
+      div.form-group
+        label(for="tweetText") ツイート内容
+        p
+          | [ハッシュタグ]、[スタンプ設置サイトURL]、[スタンプ画像URL] はあとでそれぞれの値に置き換えられます。
+          br
+          | スタンプとして必要なのは [スタンプ画像URL] だけなので、他は自由に編集できます。
+        textarea#tweetText.form-control(rows="5")
+
+      div.form-group
+        label(for="hashtag") ハッシュタグ
+        div.input-group
+          span.input-group-addon #
+          input#hashtag.form-control(type="text", placeholder="てゆうかもう寝よう")
+
+      div.form-group
+        label(for="siteUrl") スタンプ設置サイトURL
+        input#siteUrl.form-control(type="text", placeholder="http://mouneyou.rgx6.com/")
+
+
+      h1.page-header 4. ツイートボタンのデザイン
+
+      div.form-group
+        label(for="tweetButtonImage") ツイートボタンに表示する画像のURL
+        input#tweetButtonImage.form-control(type="text")
+
+      div.row
+        div.form-group.col-xs-6.col-sm-4.col-md-3
+          label(for="tweetButtonImageWidth") 画像の幅
+          div.input-group
+            input#tweetButtonImageWidth.form-control(type="number", min="0")
+            span.input-group-addon px
+
+        div.form-group.col-xs-6.col-sm-4.col-md-3
+          label(for="tweetButtonImageHeight") 画像の高さ
+          div.input-group
+            input#tweetButtonImageHeight.form-control(type="number", min="0")
+            span.input-group-addon px
+
+        div.form-group.col-xs-6.col-sm-4.col-md-3
+          label(for="tweetButtonBackgroundColor") 背景色
+          input#tweetButtonBackgroundColor.form-control(type="text", value="#fff")
+
+        div.form-group.col-xs-6.col-sm-4.col-md-3
+          label(for="tweetButtonBorderWidth") 枠線の幅
+          div.input-group
+            input#tweetButtonBorderWidth.form-control(type="number", value="1", min="0")
+            span.input-group-addon px
+
+        div.form-group.col-xs-6.col-sm-4.col-md-3
+          label(for="tweetButtonBorderColor") 枠線の色
+          input#tweetButtonBorderColor.form-control(type="text", value="#000")
+
+        div.form-group.col-xs-6.col-sm-4.col-md-3
+          label(for="tweetButtonBorderRadius") 角丸
+          div.input-group
+            input#tweetButtonBorderRadius.form-control(type="number", value="0", min="0")
+            span.input-group-addon px
+
+      label ツイートボタン
+      p
+        | クリックするとツイート画面が開きます。
+        br
+        | ツイート内容が意図したものになっているか確認してください。
+      div#tweetButtonSampleArea
+
+
+      h1.page-header 5. ツイート用ボタンのタグを生成
+
+      div.form-group
+        button#makeTweetButtonTag.btn.btn-primary(type="button") タグを生成
+
+      p 生成したタグをあなたのサイトに貼り付ければ完成です。
+
+      div.form-group
+        input#tweetButtonTag.form-control(type="text", readonly)
+
+
+      h1.page-header 6. おまけ
+
+      div.form-group
+        label(for="getTweetUrlCount") サイトURLのツイート数
+        input#getTweetUrlCount.form-control(type="text", readonly)
+
+      div.form-group
+        label(for="getTweetUrlList") サイトURLのツイート一覧
+        input#getTweetUrlList.form-control(type="text", readonly)
+
+      div.form-group
+        label(for="getTweetHashtagList") ハッシュタグのツイート一覧
+        input#getTweetHashtagList.form-control(type="text", readonly)
+
+      div.form-group
+        label(for="tweetHref") aタグのhref
+        input#tweetHref.form-control(type="text", readonly)
+
+      div.text-center.footer
+        p &copy; 2015
+          a(href="https://twitter.com/rgx_6", target="_blank") @rgx_6

@@ -1,0 +1,17 @@
+
+.stampsample a {
+    float: left;
+    margin: 10px;
+}
+
+#tweetImageArea img {
+    border: solid 1px #fff;
+}
+
+#tweetImageArea img:hover {
+    border: solid 1px #000;
+}
+
+.footer a {
+  margin-left: 10px;
+}

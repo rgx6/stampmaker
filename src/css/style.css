@@ -13,5 +13,13 @@
 }
 
 .footer a {
-  margin-left: 10px;
+    margin-left: 10px;
+}
+
+.blockUI h3 {
+    margin: 20px 0;
+}
+
+.blockUI img {
+    margin-right: 10px;
 }

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var tweetUrlPattern = new RegExp('^https://twitter.com/[_0-9a-zA-Z]+/status/[0-9]+/?$');
+    var tweetUrlPattern = new RegExp('^(https://twitter.com/[_0-9a-zA-Z]+/status/[0-9]+)');
 
     var tweetUrlBase = 'https://twitter.com/intent/tweet?lang=ja&text=';
 
@@ -53,11 +53,16 @@
 
         var url = $('#tweetUrl').val();
 
-        if (!tweetUrlPattern.test(url)) {
+        if (url == null) return;
+
+        var match = tweetUrlPattern.exec(url);
+        if (match == null) {
             alert('不正なURLです。\n'
                   + 'URLを確認してください。');
             return;
         }
+
+        url = match[0];
 
         startBlockUI();
 

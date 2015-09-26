@@ -40,6 +40,9 @@ var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a
     var siteUrlMark  = '[スタンプ設置サイトURL]';
     var imageUrlMark = '[スタンプ画像URL]';
 
+    var hashtagReplacePattern = '\\[ハッシュタグ\\]';
+    var siteUrlReplacePattern = '\\[スタンプ設置サイトURL\\]';
+
     var defaultTweetText = '\r'
                          + hashtagMark + '\r'
                          + siteUrlMark + '\r'
@@ -62,7 +65,6 @@ var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a
     */
 
     $('#tweetText').text(defaultTweetText);
-
 
     $('#tweetUrl').on('change', function () {
         'use strict';
@@ -138,6 +140,15 @@ var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a
         makeTweetButtonTag();
     });
 
+    var trimTarget = '#tweetUrl, #hashtag, #siteUrl'
+                    + ', #tweetButtonImage, #tweetButtonBackgroundColor, #tweetButtonBorderColor';
+    $(trimTarget).on('change', function () {
+        'use strict';
+        // console.log('#' + this.id + ' change');
+
+        $(this).val($(this).val().trim());
+    });
+
     var watchTarget = '#tweetText, #hashtag, #siteUrl'
                     + ', #tweetButtonImage, #tweetButtonImageWidth, #tweetButtonImageHeight'
                     + ', #tweetButtonBackgroundColor'
@@ -148,15 +159,6 @@ var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a
 
         makeTweetButton();
         resetTweetButtonTag();
-    });
-
-    var trimTarget = '#tweetUrl, #hashtag, #siteUrl'
-                    + ', #tweetButtonImage, #tweetButtonBackgroundColor, #tweetButtonBorderColor';
-    $(trimTarget).on('change', function () {
-        'use strict';
-        // console.log('#' + this.id + ' change');
-
-        $(this).val($(this).val().trim());
     });
 
     $('#siteUrl').on('change', function () {
@@ -208,14 +210,13 @@ var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a
 
         // ツイートURL生成
 
-        var hashtag = '#' + $('#hashtag').val();
         var siteUrl = $('#siteUrl').val();
 
         var tweetText = $('#tweetText').val()
                 .replace(/\n/g, '\r')
-                .replace(hashtagMark, hashtag)
-                .replace(siteUrlMark, siteUrl)
                 .replace(imageUrlMark, twitterPicUrl);
+        tweetText = replaceHashtagMark(tweetText);
+        tweetText = replaceSiteUrlMark(tweetText);
 
         var tweetUrl = tweetUrlBase + encodeURIComponent(tweetText);
 
@@ -256,6 +257,32 @@ var e=c.find(".active:last a"),f=a.Event("hide.bs.tab",{relatedTarget:b[0]}),g=a
 
         $('#tweetButtonSampleArea').empty();
         $('#tweetButtonSampleArea').append(a);
+    }
+
+    function replaceHashtagMark (text) {
+        'use strict';
+        // console.log('replaceHashtagMark');
+
+        var hashtag = $('#hashtag').val();
+
+        if (hashtag == null || hashtag == '') {
+            return text.replace(new RegExp(hashtagReplacePattern + '\\s?'), '');
+        } else {
+            return text.replace(new RegExp(hashtagReplacePattern), '#' + hashtag);
+        }
+    }
+
+    function replaceSiteUrlMark (text) {
+        'use strict';
+        // console.log('replaceSiteUrlMark');
+
+        var siteUrl = $('#siteUrl').val();
+
+        if (siteUrl == null || siteUrl == '') {
+            return text.replace(new RegExp(siteUrlReplacePattern + '\\s?'), '');
+        } else {
+            return text.replace(new RegExp(siteUrlReplacePattern), siteUrl);
+        }
     }
 
     function makeTweetButtonTag () {

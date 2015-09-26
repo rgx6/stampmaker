@@ -40,6 +40,7 @@
     */
 
     $('#tweetText').text(defaultTweetText);
+    loadLocalStorage();
 
     $('#tweetUrl').on('change', function () {
         'use strict';
@@ -147,6 +148,8 @@
         var listUrl = getTweetListBase + encodeURIComponent($(this).val());
 
         $('#getTweetUrlList').val(listUrl);
+
+        saveSiteUrl();
     });
 
     $('#hashtag').on('change', function () {
@@ -156,6 +159,8 @@
         var listUrl = getTweetListBase + encodeURIComponent('#' + $(this).val());
 
         $('#getTweetHashtagList').val(listUrl);
+
+        saveHashtag();
     });
 
     function makeTweetImage () {
@@ -313,6 +318,37 @@
 
         $('#tweetButtonTag').val('');
         $('#makeTweetButtonTag').attr('disabled', false);
+    }
+
+    function saveHashtag () {
+        'use strict';
+        // console.log('saveHashtag');
+
+        var hashtag = $('#hashtag').val();
+        localStorage.setItem('hashtag', JSON.stringify(hashtag));
+    };
+
+    function saveSiteUrl () {
+        'use strict';
+        // console.log('saveSiteUrl');
+
+        var siteUrl = $('#siteUrl').val();
+        localStorage.setItem('siteUrl', JSON.stringify(siteUrl));
+    };
+
+    function loadLocalStorage () {
+        'use strict';
+        // console.log('loadLocalStorage');
+
+        var hashtag = localStorage.getItem('hashtag') ?
+                JSON.parse(localStorage.getItem('hashtag')) :
+                '';
+        $('#hashtag').val(hashtag);
+
+        var siteUrl = localStorage.getItem('siteUrl') ?
+                JSON.parse(localStorage.getItem('siteUrl')) :
+                '';
+        $('#siteUrl').val(siteUrl);
     }
 
     function startBlockUI () {

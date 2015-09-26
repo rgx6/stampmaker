@@ -4,6 +4,7 @@ var uglify      = require('gulp-uglify');
 var minifyCSS   = require('gulp-minify-css');
 var del         = require('del');
 var browserSync = require('browser-sync');
+var sourcemaps  = require('gulp-sourcemaps');
 
 gulp.task('js', function () {
     // todo : clean
@@ -16,14 +17,20 @@ gulp.task('js', function () {
             'src/js/lib/bootstrap.min.js',
             'src/js/script/*.js'
         ])
+        .pipe(sourcemaps.init())
         .pipe(concat('client.js'))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('src/public/javascripts'));
 });
 
 gulp.task('css', function () {
     // todo : clean
     gulp.src('src/css/**/*.css')
+        .pipe(sourcemaps.init())
         .pipe(concat('style.css'))
+        .pipe(minifyCSS())
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('src/public/stylesheets'));
 });
 
@@ -43,12 +50,10 @@ gulp.task('clean', function () {
 });
 
 gulp.task('build', ['js', 'css', 'img'], function () {
-    gulp.src('src/public/javascripts/*.js')
-        .pipe(uglify())
+    gulp.src(['src/public/javascripts/*.js', 'src/public/javascripts/*.map'])
         .pipe(gulp.dest('dest/public/javascripts'));
 
-    gulp.src('src/public/stylesheets/*.css')
-        .pipe(minifyCSS())
+    gulp.src(['src/public/stylesheets/*.css', 'src/public/stylesheets/*.map'])
         .pipe(gulp.dest('dest/public/stylesheets'));
 
     gulp.src('src/public/images/**/*.*')

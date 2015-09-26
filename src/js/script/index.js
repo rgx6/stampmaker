@@ -1,3 +1,6 @@
+/*!
+ * index.js
+ */
 (function () {
     'use strict';
 
@@ -55,7 +58,7 @@
 
         var url = $('#tweetUrl').val();
 
-        if (url == null) return;
+        if (url == null || url == '') return;
 
         var match = tweetUrlPattern.exec(url);
         if (match == null) {

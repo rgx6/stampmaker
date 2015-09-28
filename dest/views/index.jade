@@ -9,7 +9,7 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1")
     title="Twitterスタンプメーカー"
     link(type="text/css", rel="stylesheet", href="/stylesheets/style.css")
-    script(type="application/javascript", src="/javascripts/client.js", defer)
+    script(type="application/javascript", src="/javascripts/client.js?d=20150928", defer)
   body
     div.container
       div.jumbotron
@@ -79,20 +79,10 @@ html
       div.form-group
         label(for="tweetText") ツイート内容
         p
-          | [ハッシュタグ]、[スタンプ設置サイトURL]、[スタンプ画像URL] はあとでそれぞれの値に置き換えられます。
+          | お好みでハッシュタグや、スタンプを設置するサイトのURLなどを追加します。
           br
-          | スタンプとして必要なのは [スタンプ画像URL] だけなので、他は自由に編集できます。
+          | [スタンプ画像URL] はURLを埋め込む目印なのでそのまま残してください。
         textarea#tweetText.form-control(rows="5")
-
-      div.form-group
-        label(for="hashtag") ハッシュタグ
-        div.input-group
-          span.input-group-addon #
-          input#hashtag.form-control(type="text", placeholder="例） てゆうかもう寝よう")
-
-      div.form-group
-        label(for="siteUrl") スタンプ設置サイトURL
-        input#siteUrl.form-control(type="text", placeholder="例） http://mouneyou.rgx6.com/")
 
 
       h1.page-header 4. ツイートボタンのデザイン
@@ -156,19 +146,7 @@ html
       h1.page-header 6. おまけ
 
       div.form-group
-        label(for="getTweetUrlCount") サイトURLのツイート数
-        input#getTweetUrlCount.form-control(type="text", readonly)
-
-      div.form-group
-        label(for="getTweetUrlList") サイトURLのツイート一覧
-        input#getTweetUrlList.form-control(type="text", readonly)
-
-      div.form-group
-        label(for="getTweetHashtagList") ハッシュタグのツイート一覧
-        input#getTweetHashtagList.form-control(type="text", readonly)
-
-      div.form-group
-        label(for="tweetHref") aタグのhref
+        label(for="tweetHref") aタグのhref（ツイートボタンを自分で作る方用）
         input#tweetHref.form-control(type="text", readonly)
 
       div.text-center.footer

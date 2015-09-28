@@ -11,17 +11,9 @@
     var getTweetCountBase = 'http://urls.api.twitter.com/1/urls/count.json?url=';
     var getTweetListBase  = 'https://twitter.com/search?q=';
 
-    var hashtagMark  = '[ハッシュタグ]';
-    var siteUrlMark  = '[スタンプ設置サイトURL]';
     var imageUrlMark = '[スタンプ画像URL]';
 
-    var hashtagReplacePattern = '\\[ハッシュタグ\\]';
-    var siteUrlReplacePattern = '\\[スタンプ設置サイトURL\\]';
-
-    var defaultTweetText = '\r'
-                         + hashtagMark + '\r'
-                         + siteUrlMark + '\r'
-                         + imageUrlMark;
+    var defaultTweetText = '\r' + imageUrlMark;
 
     var timeoutSeconds = 10;
 
@@ -35,12 +27,9 @@
     makeTweetImage();
     $('#tweetButtonImage').val(twitterPbsUrl);
     $('#tweetUrl').val('https://twitter.com/rgx_6/status/522360412960862209/');
-    $('#hashtag').val('てゆうかもう寝よう');
-    $('#siteUrl').val('http://mouneyou.rgx6.com/');
     */
 
-    $('#tweetText').text(defaultTweetText);
-    loadLocalStorage();
+    initTweetText();
 
     $('#tweetUrl').on('change', function () {
         'use strict';
@@ -116,7 +105,7 @@
         makeTweetButtonTag();
     });
 
-    var trimTarget = '#tweetUrl, #hashtag, #siteUrl'
+    var trimTarget = '#tweetUrl'
                     + ', #tweetButtonImage, #tweetButtonBackgroundColor, #tweetButtonBorderColor';
     $(trimTarget).on('change', function () {
         'use strict';
@@ -125,7 +114,7 @@
         $(this).val($(this).val().trim());
     });
 
-    var watchTarget = '#tweetText, #hashtag, #siteUrl'
+    var watchTarget = '#tweetText'
                     + ', #tweetButtonImage, #tweetButtonImageWidth, #tweetButtonImageHeight'
                     + ', #tweetButtonBackgroundColor'
                     + ', #tweetButtonBorderWidth, #tweetButtonBorderColor, #tweetButtonBorderRadius';
@@ -137,31 +126,26 @@
         resetTweetButtonTag();
     });
 
-    $('#siteUrl').on('change', function () {
+    $('#tweetText').on('change', function () {
         'use strict';
-        // console.log('#siteUrl change');
+        // console.log('#tweetText  change');
 
-        var countUrl = getTweetCountBase + encodeURIComponent($(this).val());
+        var text = $(this).val();
+        if (!text.contains(imageUrlMark)) $(this).val(text + '\r' + imageUrlMark);
 
-        $('#getTweetUrlCount').val(countUrl);
-
-        var listUrl = getTweetListBase + encodeURIComponent($(this).val());
-
-        $('#getTweetUrlList').val(listUrl);
-
-        saveSiteUrl();
+        saveTweetText();
     });
 
-    $('#hashtag').on('change', function () {
+    function initTweetText () {
         'use strict';
-        // console.log('#hashtag change');
+        // console.log('initTweetText');
 
-        var listUrl = getTweetListBase + encodeURIComponent('#' + $(this).val());
+        var text = loadTweetText();
+        if (text == '') text = defaultTweetText;
+        else if (!text.contains(imageUrlMark)) text += '\r' + imageUrlMark;
 
-        $('#getTweetHashtagList').val(listUrl);
-
-        saveHashtag();
-    });
+        $('#tweetText').text(text);
+    }
 
     function makeTweetImage () {
         'use strict';
@@ -190,13 +174,9 @@
 
         // ツイートURL生成
 
-        var siteUrl = $('#siteUrl').val();
-
         var tweetText = $('#tweetText').val()
                 .replace(/\n/g, '\r')
                 .replace(imageUrlMark, twitterPicUrl);
-        tweetText = replaceHashtagMark(tweetText);
-        tweetText = replaceSiteUrlMark(tweetText);
 
         var tweetUrl = tweetUrlBase + encodeURIComponent(tweetText);
 
@@ -239,32 +219,6 @@
         $('#tweetButtonSampleArea').append(a);
     }
 
-    function replaceHashtagMark (text) {
-        'use strict';
-        // console.log('replaceHashtagMark');
-
-        var hashtag = $('#hashtag').val();
-
-        if (hashtag == null || hashtag == '') {
-            return text.replace(new RegExp(hashtagReplacePattern + '\\s?'), '');
-        } else {
-            return text.replace(new RegExp(hashtagReplacePattern), '#' + hashtag);
-        }
-    }
-
-    function replaceSiteUrlMark (text) {
-        'use strict';
-        // console.log('replaceSiteUrlMark');
-
-        var siteUrl = $('#siteUrl').val();
-
-        if (siteUrl == null || siteUrl == '') {
-            return text.replace(new RegExp(siteUrlReplacePattern + '\\s?'), '');
-        } else {
-            return text.replace(new RegExp(siteUrlReplacePattern), siteUrl);
-        }
-    }
-
     function makeTweetButtonTag () {
         'use strict';
         // console.log('makeTweetButtonTag');
@@ -276,8 +230,6 @@
         $('#tweetButtonTag').val(button.get(0).outerHTML);
 
         var params = {
-            siteUrl:  $('#siteUrl').val(),
-            hashtag:  '#' + $('#hashtag').val(),
             text:     $('#tweetText').val(),
             tweetUrl: $('#tweetUrl').val(),
             imageUrl: twitterPicUrl,
@@ -320,35 +272,23 @@
         $('#makeTweetButtonTag').attr('disabled', false);
     }
 
-    function saveHashtag () {
+    function saveTweetText () {
         'use strict';
-        // console.log('saveHashtag');
+        // console.log('saveTweetText');
 
-        var hashtag = $('#hashtag').val();
-        localStorage.setItem('hashtag', JSON.stringify(hashtag));
+        var tweetText = $('#tweetText').val();
+        localStorage.setItem('tweetText', JSON.stringify(tweetText));
     };
 
-    function saveSiteUrl () {
+    function loadTweetText () {
         'use strict';
-        // console.log('saveSiteUrl');
+        // console.log('loadTweetText');
 
-        var siteUrl = $('#siteUrl').val();
-        localStorage.setItem('siteUrl', JSON.stringify(siteUrl));
-    };
-
-    function loadLocalStorage () {
-        'use strict';
-        // console.log('loadLocalStorage');
-
-        var hashtag = localStorage.getItem('hashtag') ?
-                JSON.parse(localStorage.getItem('hashtag')) :
+        var tweetText = localStorage.getItem('tweetText') ?
+                JSON.parse(localStorage.getItem('tweetText')) :
                 '';
-        $('#hashtag').val(hashtag);
 
-        var siteUrl = localStorage.getItem('siteUrl') ?
-                JSON.parse(localStorage.getItem('siteUrl')) :
-                '';
-        $('#siteUrl').val(siteUrl);
+        return tweetText;
     }
 
     function startBlockUI () {

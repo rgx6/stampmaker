@@ -23,3 +23,7 @@
 .blockUI img {
     margin-right: 10px;
 }
+
+.caution {
+    color: #cc0000;
+}

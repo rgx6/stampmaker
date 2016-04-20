@@ -8,7 +8,7 @@ html
     meta(name="description", content="Twitterスタンプメーカー")
     meta(name="viewport", content="width=device-width, initial-scale=1")
     title="Twitterスタンプメーカー"
-    link(type="text/css", rel="stylesheet", href="/stylesheets/style.css")
+    link(type="text/css", rel="stylesheet", href="/stylesheets/style.css?d=20160420")
     script(type="application/javascript", src="/javascripts/client.js?d=20150928", defer)
   body
     div.container
@@ -55,7 +55,9 @@ html
       p すでにツイートしてある画像を使いたい場合はそのまま次へ。
 
       p
-        | ※ 鍵アカウントでツイートすると、フォロワーにしか見えないスタンプになってしまいます。
+        strike ※ 鍵アカウントでツイートすると、フォロワーにしか見えないスタンプになってしまいます。
+        br
+        span.caution ※ 鍵アカウントのツイートには対応していません。
         br
         | ※ スタンプのもとになったツイートを削除するとスタンプも使えなくなります。
 

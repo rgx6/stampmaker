@@ -6,7 +6,6 @@ var Promise = require('es6-promise').Promise;
 var db      = require('./db.js');
 
 var TweetUrlPattern      = new RegExp('^https://twitter.com/[_0-9a-zA-Z]+/status/[0-9]+/?$');
-var TwitterPicUrlPattern = new RegExp('pic.twitter.com/[0-9a-zA-Z]+');
 var TwitterPbsUrlPattern = new RegExp('https://pbs.twimg.com/media/[^:]+');
 
 exports.set = function (appRoot, app) {
@@ -43,17 +42,19 @@ var postTweetUrl = function (req, res) {
             body += chunk;
         });
         r.on('end', function () {
-            var twitterPicUrl = TwitterPicUrlPattern.exec(body);
             var twitterPbsUrl = TwitterPbsUrlPattern.exec(body);
 
-            if (twitterPicUrl == null || twitterPbsUrl == null) {
+            if (twitterPbsUrl == null) {
                 logger.error('twitterImageUrl is null  ' + tweetUrl);
                 res.status(500).json({ result: 'ng', reason: 'twitterImageUrl is null' });
                 return;
             }
 
-            twitterPicUrl = twitterPicUrl[0];
             twitterPbsUrl = twitterPbsUrl[0];
+
+            var twitterPicUrl = tweetUrl;
+            if (twitterPicUrl.slice(-1) !== '/') twitterPicUrl += '/';
+            twitterPicUrl += 'photo/1';
 
             res.status(200).json({
                 twitterPicUrl: twitterPicUrl,

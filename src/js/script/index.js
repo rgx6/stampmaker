@@ -131,7 +131,7 @@
         // console.log('#tweetText  change');
 
         var text = $(this).val();
-        if (!text.contains(imageUrlMark)) $(this).val(text + '\r' + imageUrlMark);
+        if (!text.includes(imageUrlMark)) $(this).val(text + '\r' + imageUrlMark);
 
         saveTweetText();
     });
@@ -142,7 +142,7 @@
 
         var text = loadTweetText();
         if (text == '') text = defaultTweetText;
-        else if (!text.contains(imageUrlMark)) text += '\r' + imageUrlMark;
+        else if (!text.includes(imageUrlMark)) text += '\r' + imageUrlMark;
 
         $('#tweetText').text(text);
     }

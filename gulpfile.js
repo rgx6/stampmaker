@@ -19,7 +19,7 @@ gulp.task('js', function () {
         ])
         .pipe(sourcemaps.init())
         .pipe(concat('client.js'))
-        // .pipe(uglify({ preserveComments: 'some' }))
+        .pipe(uglify({ preserveComments: 'some' }))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('src/public/javascripts'));
 });

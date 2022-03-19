@@ -14,7 +14,11 @@
     });
     mongoose.model('Stamp', StampSchema);
 
-    mongoose.connect('mongodb://localhost/stampmaker');
+    mongoose.connect('mongodb://localhost/stampmaker', {
+        useCreateIndex: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 
     exports.Stamp = mongoose.model('Stamp');
 })();
